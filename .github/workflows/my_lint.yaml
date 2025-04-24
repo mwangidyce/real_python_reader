@@ -1,0 +1,54 @@
+name: Lint Python Code
+
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+      - github-actions-tutorial
+  workflow_dispatch:
+
+jobs:
+  lint: # The name of the job
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v46
+        with:
+          files: "**/*.py"
+
+      - name: List all changed files
+        env:
+          ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+        run: |
+          for file in ${ALL_CHANGED_FILES}; do
+            echo "$file was changed"
+          done
+
+      # - name: Install poetry
+      #   uses: abatilo/actions-poetry@v4
+
+      # - name: Setup a local virtual environment (if no poetry.toml file)
+      #   run: |
+      #     poetry config virtualenvs.create true --local
+      #     poetry config virtualenvs.in-project true --local
+
+      # - uses: actions/cache@v3
+      #   name: Define a cache for the virtual environment based on the dependencies lock file
+      #   with:
+      #     path: ./.venv
+
+      # - name: Install dependencies
+      #   run: poetry install
+
+      #Ruff linter for checking. Replaces manual install and run.
+      - uses: astral-sh/ruff-action@v3
