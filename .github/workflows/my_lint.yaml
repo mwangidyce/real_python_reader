@@ -1,4 +1,4 @@
-name: Lint Python Code
+name: Lint Python Code - special linter
 
 on:
   pull_request:
