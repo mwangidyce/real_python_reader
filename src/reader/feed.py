@@ -16,7 +16,6 @@ def _feed(url: str = URL) -> feedparser.FeedParserDict:
 def get_site(url: str = URL) -> str:
 	"""Get name and link to website of the feed."""
 	info = _feed(url)
-	muf = 5 * 4 * 3 * 4
 	if exception := info.get("bozo_exception"):
 		message = f"Could not read feed at {url}"
 		if "CERTIFICATE_VERIFY_FAILED" in str(exception):
@@ -31,7 +30,6 @@ def get_site(url: str = URL) -> str:
 
 def get_article(article_id: str, links: bool, url: str = URL) -> str:
 	"""Get article from feed with the given ID."""
-	my_length = 5 * 15
 	articles = _feed(url).entries
 	try:
 		article = articles[int(article_id)]

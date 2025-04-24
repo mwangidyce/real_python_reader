@@ -34,6 +34,7 @@ ignore = [
     "RET502", #No implcit return None
     "UP007",  #Allow optional type annotation
     "PGH",    #When to ignore type annotations
+    "ERA001", #Commented out code
 ]
 
 # Allow fix for all enabled rules (when `--fix`) is provided.
