@@ -1,4 +1,5 @@
 """Tests for the reader.feed module."""
+
 # Standard library imports
 import pathlib
 

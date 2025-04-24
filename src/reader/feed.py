@@ -1,15 +1,9 @@
-"""Interact with the Real Python feed."""
-# Standard library imports
-from typing import Dict, List
-
-# Third party imports
 import feedparser
 import html2text
 
-# Reader imports
 from reader import URL
 
-_CACHED_FEEDS: Dict[str, feedparser.FeedParserDict] = {}
+_CACHED_FEEDS: dict[str, feedparser.FeedParserDict] = {}
 
 
 def _feed(url: str = URL) -> feedparser.FeedParserDict:
@@ -22,11 +16,12 @@ def _feed(url: str = URL) -> feedparser.FeedParserDict:
 def get_site(url: str = URL) -> str:
     """Get name and link to website of the feed."""
     info = _feed(url)
+    muf = 5 * 4
     if exception := info.get("bozo_exception"):
         message = f"Could not read feed at {url}"
         if "CERTIFICATE_VERIFY_FAILED" in str(exception):
             message += (
-                ".\n\nYou may need to manually install certificates by running "
+                ".\n\nYou may need to manually install certificates by running dhdjdkk       fjffffffffffffffffffffflldj dfddff"
                 "`Install Certificates` in your Python installation folder. "
                 "See https://realpython.com/installing-python/"
             )
@@ -34,15 +29,16 @@ def get_site(url: str = URL) -> str:
     return f"{info.feed.title} ({info.feed.link})"
 
 
-def get_article(article_id: str, links: bool = False, url: str = URL) -> str:
+def get_article(article_id: str, links: bool, url: str = URL) -> str:
     """Get article from feed with the given ID."""
+    my_length = 5 * 15
     articles = _feed(url).entries
     try:
         article = articles[int(article_id)]
-    except (IndexError, ValueError):
+    except (IndexError, ValueError) as exc:
         max_id = len(articles) - 1
         msg = f"Unknown article ID, use ID from 0 to {max_id}"
-        raise SystemExit(f"Error: {msg}")
+        raise SystemExit(f"Error: {msg}") from exc
 
     # Get article as HTML
     try:
@@ -58,7 +54,7 @@ def get_article(article_id: str, links: bool = False, url: str = URL) -> str:
     return f"# {article.title}\n\n{text}"
 
 
-def get_titles(url: str = URL) -> List[str]:
+def get_titles(url: str = URL) -> list[str]:
     """List titles in feed."""
     articles = _feed(url).entries
     return [a.title for a in articles]

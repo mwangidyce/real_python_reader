@@ -1,0 +1,40 @@
+name: Lint Python Code
+
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+      - github-actions-tutorial
+  workflow_dispatch:
+
+jobs:
+  lint: # The name of the job
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install poetry
+        run: pipx install poetry
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: "poetry"
+
+      - name: Install dependencies
+        run: poetry install
+
+      #Ruff linter for checking. Replaces manual install and run.
+      - uses: astral-sh/ruff-action@v3
+
+      # - name: Install ruff for lint checks
+      #   run: pipx install ruff
+
+      # - name: Run Ruff
+      #   run: ruff check --output-format=github
+
+      # - name: Run unit/integration tests
+      #   run: poetry run pytest
