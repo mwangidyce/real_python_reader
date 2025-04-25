@@ -38,4 +38,4 @@ jobs:
       - uses: astral-sh/ruff-action@v3
         with:
           src: >-
-            ${ALL_CHANGED_FILES}
+            ${{ steps.changed-files.outputs.all_changed_files }}
