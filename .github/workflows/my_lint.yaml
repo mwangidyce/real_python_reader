@@ -21,7 +21,7 @@ jobs:
   linux_job:
     runs-on: ubuntu-latest
     steps:
-      - run: echo 'Hi ${{ env.mascot }}' # Hi Tux
+      - run: echo 'Hi ${mascot}' # Hi Tux
 
   lint: # The name of the job
     runs-on: ubuntu-latest
