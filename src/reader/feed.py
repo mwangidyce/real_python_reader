@@ -8,6 +8,7 @@ _CACHED_FEEDS: dict[str, feedparser.FeedParserDict] = {}
 
 def _feed(url: str = URL) -> feedparser.FeedParserDict:
 	"""Cache contents of the feed, so it's only read once."""
+	print("baba yao")
 	if url not in _CACHED_FEEDS:
 		_CACHED_FEEDS[url] = feedparser.parse(url)
 	return _CACHED_FEEDS[url]
