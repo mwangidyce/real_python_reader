@@ -11,6 +11,18 @@ on:
   workflow_dispatch:
 
 jobs:
+  windows_job:
+    runs-on: windows-latest
+    steps:
+      - run: echo 'Hi ${{ env.mascot }}' # Hi Mona
+      - run: echo 'Hi ${{ env.mascot }}' # Hi Octocat
+        env:
+          mascot: Octocat
+  linux_job:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'Hi ${{ env.mascot }}' # Hi Tux
+
   lint: # The name of the job
     runs-on: ubuntu-latest
     steps:
