@@ -1,6 +1,5 @@
 name: Lint Python Code - special linter
 
-
 on:
   pull_request:
     branches:
@@ -35,21 +34,8 @@ jobs:
             echo "$file was changed"
           done
 
-      # - name: Install poetry
-      #   uses: abatilo/actions-poetry@v4
-
-      # - name: Setup a local virtual environment (if no poetry.toml file)
-      #   run: |
-      #     poetry config virtualenvs.create true --local
-      #     poetry config virtualenvs.in-project true --local
-
-      # - uses: actions/cache@v3
-      #   name: Define a cache for the virtual environment based on the dependencies lock file
-      #   with:
-      #     path: ./.venv
-
-      # - name: Install dependencies
-      #   run: poetry install
-
       #Ruff linter for checking. Replaces manual install and run.
       - uses: astral-sh/ruff-action@v3
+        with:
+          src: >-
+            ${ALL_CHANGED_FILES}
