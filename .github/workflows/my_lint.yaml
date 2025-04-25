@@ -41,12 +41,12 @@ jobs:
 
       - name: Dump job context
         env:
-          JOB_CONTEXT: ${{ env.ALL_CHANGED_FILES }}
+          JOB_CONTEXT: ${{ toJson(job) }}
         run: echo "$JOB_CONTEXT"
 
       #Ruff linter for checking. Replaces manual install and run.
       - uses: astral-sh/ruff-action@v3
-        if: ${{ env.ALL_CHANGED_FILES }}
+        if: ${{ steps.changed-files.outputs.all_changed_files }}
         with:
           src: >-
-            ${{ env.ALL_CHANGED_FILES }}
+            ${{ steps.changed-files.outputs.all_changed_files }}
