@@ -1,5 +1,9 @@
 name: Lint Python Code - special linter
 
+env:
+  mascot: Mona
+  super_duper_var: totally_awesome
+
 on:
   pull_request:
     branches:
@@ -16,8 +20,7 @@ jobs:
     steps:
       - run: echo 'Hi ${{ env.mascot }}' # Hi Mona
       - run: echo 'Hi ${{ env.mascot }}' # Hi Octocat
-        env:
-          mascot: Octocat
+
   linux_job:
     runs-on: ubuntu-latest
     steps:
