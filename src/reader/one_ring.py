@@ -23,7 +23,7 @@ def random_character() -> None:
 	# area_divided_2 = area // summ
 
 	# print(area_divided_2)
-	print(33954)
+	print(354)
 	random.choice(CHARACTERS)
 
 
