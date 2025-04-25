@@ -36,3 +36,7 @@ jobs:
 
       #Ruff linter for checking. Replaces manual install and run.
       - uses: astral-sh/ruff-action@v3
+        if: ${{ steps.changed-files.outputs.all_changed_files }}
+        with:
+          src: >-
+            ${{ steps.changed-files.outputs.all_changed_files }}
