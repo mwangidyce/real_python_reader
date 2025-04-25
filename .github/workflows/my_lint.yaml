@@ -41,7 +41,7 @@ jobs:
 
       - name: Dump job context
         env:
-          JOB_CONTEXT: ${{ toJson(job) }}
+          JOB_CONTEXT: ${{ env.ALL_CHANGED_FILES }}
         run: echo "$JOB_CONTEXT"
 
       #Ruff linter for checking. Replaces manual install and run.
