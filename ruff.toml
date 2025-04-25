@@ -3,6 +3,9 @@ exclude = [
     "tests/*", #Test files. Style not important. Speed/correctness matters more
 ]
 
+#Critical for Github Actions where we pass a list of files
+force-exclude = true
+
 line-length = 120
 indent-width = 4
 
