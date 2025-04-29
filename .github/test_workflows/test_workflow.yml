@@ -1,12 +1,11 @@
 on:
   workflow_call:
     inputs:
-      if:
-        description: "Whether to run this job"
-        required: false
-        default: true
-        type: boolean
-      foo:
+      project:
+        description: "Describes which project we are dealing with"
+        required: true
+        type: string
+      changed_files:
         required: true
         type: string
 

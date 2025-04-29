@@ -1,172 +1,27 @@
 {
-  "workbench.colorTheme": "Atom One Dark",
-  "window.zoomLevel": -2,
-  "workbench.iconTheme": "material-icon-theme",
-  // "workbench.colorCustomizations": {
-  //   "editorLineNumber.foreground":"#00ff00"
-  // },
-  "workbench.editorAssociations": {
-    "*.ipynb": "jupyter-notebook",
-    "*.xlsx": "default"
-  },
-  "terminal.integrated.inheritEnv": false,
-  "explorer.confirmDragAndDrop": false,
-  "editor.fontFamily": "'Jetbrains mono',Consolas, 'Courier New', monospace",
-  "editor.bracketPairColorization.enabled": true,
-  "editor.guides.bracketPairs": "active",
-  "editor.fontSize": 15,
-  "editor.suggestSelection": "first",
-  "editor.inlineSuggest.enabled": true,
-  "editor.fontLigatures": true,
   "editor.formatOnSave": true,
   "editor.mouseWheelZoom": true,
   "editor.formatOnSaveMode": "file",
   "editor.wrappingIndent": "same",
   "editor.wordWrap": "wordWrapColumn",
   "editor.wordWrapColumn": 120,
-  // "editor.codeActionsOnSave": {
-  //      "source.unusedImports": true,
-  //   },
-  "javascript.updateImportsOnFileMove.enabled": "always",
-  "[javascript]": {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": "explicit"
-    }
-  },
-  "typescript.updateImportsOnFileMove.enabled": "always",
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
   "python.languageServer": "Pylance",
   "python.analysis.typeCheckingMode": "standard",
   "python.analysis.fixAll": [
     "source.unusedImports"
   ],
   "python.analysis.completeFunctionParens": true,
-  "python.formatting.provider": "black",
   "[python]": {
-    // "editor.wordBasedSuggestions": "on",
     "editor.defaultFormatter": "charliermarsh.ruff",
-    // "editor.formatOnType": true,
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
       "source.organizeImports": "explicit"
     },
   },
-  "files.associations": {
-    "*.html": "html"
-  },
-  "[html]": {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "terminal.integrated.profiles.linux": {
-    "bash": {
-      "path": "bash"
-    },
-    "zsh": {
-      "path": "zsh"
-    },
-    "fish": {
-      "path": "fish"
-    },
-    "tmux": {
-      "path": "tmux",
-      "icon": "terminal-tmux"
-    },
-    "pwsh": {
-      "path": "pwsh",
-      "icon": "terminal-powershell"
-    },
-    "bash (2)": {
-      "path": "/usr/bin/bash"
-    },
-    "sh": {
-      "path": "/bin/sh"
-    },
-    "rbash": {
-      "path": "/bin/rbash"
-    },
-    "dash": {
-      "path": "/bin/dash"
-    }
-  },
-  "terminal.integrated.defaultProfile.linux": "zsh",
-  "notebook.cellToolbarLocation": {
-    "default": "right",
-    "jupyter-notebook": "left"
-  },
-  "git.autofetch": true,
-  "sync.gist": "92dc734ab6979f9b048b0dcb5b3e9578",
-  "settingsSync.ignoredExtensions": [
-    "littlefoxteam.vscode-python-test-adapter"
-  ],
-  "security.workspace.trust.untrustedFiles": "open",
-  "prettier.printWidth": 150,
-  "prettier.prettierPath": "/usr/lib/node_modules/prettier",
-  "workbench.productIconTheme": "developer-icons",
-  "[yaml]": {
-    "editor.defaultFormatter": "redhat.vscode-yaml"
-  },
-  "[sql]": {
-    "editor.defaultFormatter": "mtxr.sqltools"
-  },
-  "editor.fontWeight": "normal",
-  "githubPullRequests.pullBranch": "never",
-  "yaml.customTags": [
-    "!And",
-    "!And sequence",
-    "!If",
-    "!If sequence",
-    "!Not",
-    "!Not sequence",
-    "!Equals",
-    "!Equals sequence",
-    "!Or",
-    "!Or sequence",
-    "!FindInMap",
-    "!FindInMap sequence",
-    "!Base64",
-    "!Join",
-    "!Join sequence",
-    "!Cidr",
-    "!Ref",
-    "!Sub",
-    "!Sub sequence",
-    "!GetAtt",
-    "!GetAZs",
-    "!ImportValue",
-    "!ImportValue sequence",
-    "!Select",
-    "!Select sequence",
-    "!Split",
-    "!Split sequence"
-  ],
-  "json.schemas": [],
-  "aws.suppressPrompts": {
-    "regionAddAutomatically": true
-  },
-  "redhat.telemetry.enabled": true,
-  "diffEditor.ignoreTrimWhitespace": false,
-  "remote.autoForwardPortsSource": "hybrid",
-  "editor.accessibilitySupport": "off",
-  "sqltools.connections": [],
-  "github.copilot.enable": {
-    "*": false,
-    "plaintext": false,
-    "markdown": false,
-    "scminput": false
-  },
-  "ruff.configurationPreference": "filesystemFirst",
   "ruff.nativeServer": "off",
   "ruff.lint.enable": true,
-  "ruff.lint.run": "onSave"
+  "ruff.lint.run": "onSave",
+  "files.exclude": {
+    ".ruff_cache": true
+}
 }
