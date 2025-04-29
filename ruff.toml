@@ -1,6 +1,6 @@
 # Exclude a variety of commonly ignored directories.
 exclude = [
-    "tests/*", #Test files. Style not important. Speed/correctness matters more
+    "*/tests/*", #Test files. Style not important. Speed/correctness matters more
 ]
 
 #Critical for Github Actions where we pass a list of files
