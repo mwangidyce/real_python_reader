@@ -1,4 +1,7 @@
+import logging
 import random
+
+logger = logging.getLogger(__name__)
 
 CHARACTERS = (
 	"Frodo",
@@ -15,27 +18,20 @@ CHARACTERS = (
 )
 
 
-def random_character() -> None:
+def random_character() -> str:
 	"""My random character"""
-	# length = 5
-	# summ = length**2
-	# area = length * 20
-	# area_divided_2 = area // summ
-
-	# print(area_divided_2)
-	print(354)
-	random.choice(CHARACTERS)
+	return random.choice(CHARACTERS)
 
 
 def ring_bearer(name: str) -> bool:
 	"""Get the ring bearer"""
-	# assert name == "3"
 	return name in ("Frodo", "Sam")
 
 
 if __name__ == "__main__":
 	character = random_character()
-	# if ring_bearer(character):
-	# 	# print(f"{character} is a ring bearer")
-	# else:
-	# 	# print(f"{character} is not a ring bearer")
+	if ring_bearer(character):
+		# print("Commented out") #noqa
+		logger.info(f"{character} is a ring bearer")
+	else:
+		print(f"{character} is not a ring bearer")
