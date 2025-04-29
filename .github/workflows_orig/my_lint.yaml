@@ -1,4 +1,4 @@
-name: Lint Python Code - special linter
+name: Lint changed files for quality and type errors
 
 env:
   mascot: Mona

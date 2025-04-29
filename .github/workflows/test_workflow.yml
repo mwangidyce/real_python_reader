@@ -1,0 +1,16 @@
+on:
+  workflow_call:
+    inputs:
+      if:
+        description: "Whether to run this job"
+        required: false
+        default: true
+        type: boolean
+      foo:
+        required: true
+        type: string
+
+jobs:
+  test_project:
+    name: Test project provided
+    runs-on: ubuntu-latest
