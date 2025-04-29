@@ -34,4 +34,4 @@ if __name__ == "__main__":
 		# print("Commented out") #noqa
 		logger.info(f"{character} is a ring bearer")
 	else:
-		print(f"{character} is not a ring bearer")
+		logger.info(f"{character} is not a ring bearer")
