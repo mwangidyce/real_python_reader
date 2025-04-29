@@ -19,7 +19,7 @@ def random_character() -> None:
 	"""My random character"""
 	# length = 5
 	# summ = length**2
-	# area = length * 2
+	# area = length * 20
 	# area_divided_2 = area // summ
 
 	# print(area_divided_2)
