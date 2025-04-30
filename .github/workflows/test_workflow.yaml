@@ -24,11 +24,11 @@ jobs:
           PROJECT: ${{ inputs.project }}
           CHANGED_FILES: ${{inputs.changed_files}}
         run: |
-          $run_tests=false
+          run_tests=false
           for file in ${CHANGED_FILES}; do
             if [[ ${file} =~ ${PROJECT} ]]; then
               echo "${file} has matched"
-              $run_tests=true
+              run_tests=true
               break
             fi
           done
