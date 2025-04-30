@@ -10,6 +10,15 @@ on:
         type: string
 
 jobs:
+  run_test_on_project:
+    name: Decide if we run test on project ${{ inputs.project}}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run regex to check if file match
+        run: |
+          echo "Hello world"
+
   test_project:
     name: Test project provided
     runs-on: ubuntu-latest
+    needs: run_test_on_project

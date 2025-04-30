@@ -1,6 +1,7 @@
 name: Run Tests
 
 on:
+  push:
   pull_request:
     branches:
       - master
@@ -36,7 +37,7 @@ jobs:
       matrix:
         projects: ["common", "events", "visits"]
 
-    uses: ./.github/workflows/test_workflow.yml
+    uses: ./.github/workflows/test_workflow.yaml
     with:
       project: ${{ matrix.projects }}
       changed_files: ${{ needs.get_changed_files.outputs.changed-files }}
