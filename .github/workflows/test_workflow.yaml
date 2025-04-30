@@ -32,6 +32,7 @@ jobs:
               break
             fi
           done
+          echo ${run_tests}
           echo "RUN_TEST=${run_tests}" >> "$GITHUB_OUTPUT"
 
   test_project:
