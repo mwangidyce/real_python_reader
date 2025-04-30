@@ -39,7 +39,7 @@ jobs:
     name: Test project provided
     runs-on: ubuntu-latest
     needs: decide_run_test
-    if: ${{ needs.decide_run_test.outputs.run_test}}
+    if: ${{ needs.decide_run_test.outputs.run_test == 'true'}}
     steps:
       - name: Run regex to check if file match
         run: |
