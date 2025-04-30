@@ -12,18 +12,25 @@ on:
         type: string
 
 jobs:
-  run_test_on_project:
+  decide_run_test:
     name: Decide if we run test on project ${{ inputs.project}}
     runs-on: ubuntu-latest
     steps:
       - name: Run regex to check if file match
+        env:
+          PROJECT: ${{ inputs.project }}
+          CHANGED_FILES: ${{inputs.changed_files}}
         run: |
-          echo "Hello world"
+          for file in ${CHANGED_FILES}; do
+            if [[ ${file} =~ ${project} ]]; then
+              echo "${file} has matched"
+            fi
+          done
 
   test_project:
     name: Test project provided
     runs-on: ubuntu-latest
-    needs: run_test_on_project
+    needs: decide_run_test
     steps:
       - name: Run regex to check if file match
         run: |
