@@ -22,9 +22,7 @@ jobs:
           CHANGED_FILES: ${{inputs.changed_files}}
         run: |
           for file in ${CHANGED_FILES}; do
-            echo ${file}
-            echo ${project}
-            if [[ ${file} =~ ${project} ]]; then
+            if [[ ${file} =~ ${PROJECT} ]]; then
               echo "${file} has matched"
             fi
           done
