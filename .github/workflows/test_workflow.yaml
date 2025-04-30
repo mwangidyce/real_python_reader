@@ -26,7 +26,7 @@ jobs:
         run: |
           run_tests=false
           for file in ${CHANGED_FILES}; do
-            if [[ ${file} =~ ${PROJECT} ]]; then
+            if [[ ${PROJECT} == "common" || ${file} =~ ${PROJECT} ]]; then
               echo "${file} has matched"
               run_tests=true
               break
