@@ -43,4 +43,4 @@ jobs:
     steps:
       - name: Run regex to check if file match
         run: |
-          echo "Hello ${{ inputs.project}}"
+          echo "Hello ${{ needs.decide_run_test.outputs.run_test}}"
