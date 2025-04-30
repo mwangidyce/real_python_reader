@@ -26,13 +26,12 @@ jobs:
         run: |
           run_tests=false
           for file in ${CHANGED_FILES}; do
-            if [[ ${PROJECT} == "common" || ${file} =~ ${PROJECT} ]]; then
+            if [[ ${file} =~ "common" || ${file} =~ ${PROJECT} ]]; then
               echo "${file} has matched"
               run_tests=true
               break
             fi
           done
-          echo ${run_tests}
           echo "RUN_TEST=${run_tests}" >> "$GITHUB_OUTPUT"
 
   test_project:
