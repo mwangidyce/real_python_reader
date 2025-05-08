@@ -40,6 +40,16 @@ jobs:
     needs: decide_run_test
     if: ${{ needs.decide_run_test.outputs.run_test == 'true'}}
     steps:
-      - name: Run regex to check if file match
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Run image
+        uses: abatilo/actions-poetry@v3
+        with:
+          poetry-version: ${{ 2.13 }}
+      - name: Run tests with poetry
         run: |
-          echo "Hello ${{ needs.decide_run_test.outputs.run_test}}"
+          cd ${{ inputs.project }}
+          poetry install
+          poetry run pytest

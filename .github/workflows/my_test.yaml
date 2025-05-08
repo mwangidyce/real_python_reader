@@ -35,7 +35,7 @@ jobs:
     needs: get_changed_files
     strategy:
       matrix:
-        projects: ["common", "events", "visits_spell"]
+        projects: ["common", "events", "visits"]
 
     uses: ./.github/workflows/test_workflow.yaml
     with:
