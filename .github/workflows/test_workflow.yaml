@@ -54,6 +54,7 @@ jobs:
 
       - name: Run tests with poetry
         run: |
+          poetry env use python3.10
           cd ${{ inputs.project }}
           poetry install
           poetry run pytest
