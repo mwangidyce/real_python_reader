@@ -47,7 +47,7 @@ jobs:
       - name: Run image
         uses: abatilo/actions-poetry@v3
         with:
-          poetry-version: ${{ 2.13 }}
+          poetry-version: "2.1.3"
       - name: Run tests with poetry
         run: |
           cd ${{ inputs.project }}
