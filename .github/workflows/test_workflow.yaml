@@ -49,9 +49,6 @@ jobs:
         with:
           poetry-version: "2.1.3"
 
-      - name: Install plugin for pytest annotations Github action
-        run: poetry add pytest-github-actions-annotate-failures
-
       - name: Run tests with poetry
         run: |
           cd ${{ inputs.project }}
