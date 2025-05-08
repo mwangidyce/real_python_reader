@@ -1,4 +1,4 @@
 
 
 def test_version():
-    assert "dyce" =="kakadyce"
+    assert "dyc e" =="kakadyce"
