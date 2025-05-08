@@ -1,3 +1,3 @@
 def test_version():
     assert True
-    assert "mwasssssds"
+    assert "mwasssssdsd"

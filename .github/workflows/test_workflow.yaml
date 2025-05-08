@@ -61,7 +61,7 @@ jobs:
       - uses: actions/cache@v3
         name: Define a cache for the virtual environment based on the dependencies lock file
         with:
-          path: ./.venv
+          path: ${{ format('{0}/.venv',  inputs.project ) }}
           key: venv-${{ hashFiles(format('{0}/poetry.lock',  inputs.project )) }}
 
       - name: Run tests with poetry
