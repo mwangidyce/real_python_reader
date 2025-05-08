@@ -68,4 +68,5 @@ jobs:
         run: |
           poetry install
           poetry add pytest-github-actions-annotate-failures #Special package for github actions only
+          ls -al
           poetry run pytest -v
