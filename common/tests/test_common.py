@@ -1,4 +1,4 @@
 def test_version():
     assert True
-    assert "mwas"
+    assert "mwass"
     assert False
