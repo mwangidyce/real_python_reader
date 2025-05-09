@@ -55,7 +55,7 @@ jobs:
         # Before the cache, it was "run: docker compose build".
         run: |
           ls -al
-          docker compose up --file ../compose/dependencies_external/compose.yaml
+          docker compose --file ../compose/dependencies_external/compose.yaml up
       - uses: actions/setup-python@v5
         with:
           python-version: "3.10"
