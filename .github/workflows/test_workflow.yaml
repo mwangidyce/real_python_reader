@@ -58,14 +58,18 @@ jobs:
           poetry config virtualenvs.in-project true --local
 
       - uses: actions/cache@v3
+        id: cached-poetry-dependencies
         name: Define a cache for the virtual environment based on the dependencies lock file
         with:
           path: ${{ format('{0}/.venv',  inputs.project ) }}
           key: venv-${{ hashFiles(format('{0}/poetry.lock',  inputs.project )) }}
 
-      - name: Run tests with poetry
+      - name: Install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: |
           poetry install
           poetry add pytest-github-actions-annotate-failures #Special package for github actions only
-          ls -al
+
+      - name: Run tests with poetry
+        run: |
           poetry run pytest -v
