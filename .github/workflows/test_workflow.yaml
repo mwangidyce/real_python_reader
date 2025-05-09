@@ -1,0 +1,87 @@
+name: Run unit and integration tests
+
+on:
+  workflow_call:
+    inputs:
+      project:
+        description: "Describes which project we are dealing with"
+        required: true
+        type: string
+      changed_files:
+        required: true
+        type: string
+
+jobs:
+  decide_run_test:
+    name: Decide if we run test on project ${{ inputs.project}}
+    runs-on: ubuntu-latest
+    outputs:
+      run_test: ${{steps.if_run_test.outputs.RUN_TEST}}
+    steps:
+      - name: Run regex to check if file match
+        id: if_run_test
+        env:
+          PROJECT: ${{ inputs.project }}
+          CHANGED_FILES: ${{inputs.changed_files}}
+        run: |
+          run_tests=false
+          for file in ${CHANGED_FILES}; do
+            if [[ ${file} =~ "common" || ${file} =~ ${PROJECT} ]]; then
+              echo "${file} has matched"
+              run_tests=true
+              break
+            fi
+          done
+          echo "RUN_TEST=${run_tests}" >> "$GITHUB_OUTPUT"
+
+  test_project:
+    name: Actual Test Job
+    runs-on: ubuntu-latest
+    needs: decide_run_test
+    if: ${{ needs.decide_run_test.outputs.run_test == 'true'}}
+    defaults:
+      run:
+        working-directory: ./${{ inputs.project }}
+    steps:
+      # - name: Setup Docker Images
+      #   uses: docker/login-action@v2
+      #   with:
+      #     registry: ghcr.io
+      #     username: ${{ github.actor }}
+      #     password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v4
+
+      - name: Build docker-compose
+        # Before the cache, it was "run: docker compose build".
+        run: |
+          ls -al
+          docker compose --file ../compose/dependencies_external/compose.yaml up -d
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Install poetry
+        uses: abatilo/actions-poetry@v3
+        with:
+          poetry-version: "2.1.3"
+
+      - name: Setup a local virtual environment (if no poetry.toml file)
+        run: |
+          poetry config virtualenvs.create true --local
+          poetry config virtualenvs.in-project true --local
+
+      - uses: actions/cache@v3
+        id: cached-poetry-dependencies
+        name: Define a cache for the virtual environment based on the dependencies lock file
+        with:
+          path: ${{ format('{0}/.venv',  inputs.project ) }}
+          key: venv-${{ hashFiles(format('{0}/poetry.lock',  inputs.project )) }}
+
+      - name: Install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: |
+          poetry install
+          poetry add pytest-github-actions-annotate-failures #Special package for github actions only
+
+      - name: Run tests with poetry
+        run: |
+          poetry run pytest -v

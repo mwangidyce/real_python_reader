@@ -1,4 +1,8 @@
-name: Lint Python Code - special linter
+name: Lint changed files for quality and type errors
+
+env:
+  mascot: Mona
+  super_duper_var: totally_awesome
 
 on:
   pull_request:
@@ -11,9 +15,27 @@ on:
   workflow_dispatch:
 
 jobs:
+  windows_job:
+    runs-on: windows-latest
+    steps:
+      - run: echo 'Hi ${{ env.mascot }}' # Hi Mona
+      - run: echo 'Hi ${{ env.mascot }}' # Hi Octocat
+        env:
+          mascot: Octocat
+
+  linux_job:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'Hi ${{ env.mascot }}' # Hi Tux
+
   lint: # The name of the job
     runs-on: ubuntu-latest
     steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
       - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
@@ -34,21 +56,14 @@ jobs:
             echo "$file was changed"
           done
 
-      # - name: Install poetry
-      #   uses: abatilo/actions-poetry@v4
-
-      # - name: Setup a local virtual environment (if no poetry.toml file)
-      #   run: |
-      #     poetry config virtualenvs.create true --local
-      #     poetry config virtualenvs.in-project true --local
-
-      # - uses: actions/cache@v3
-      #   name: Define a cache for the virtual environment based on the dependencies lock file
-      #   with:
-      #     path: ./.venv
-
-      # - name: Install dependencies
-      #   run: poetry install
+      - name: Dump job context
+        env:
+          JOB_CONTEXT: ${{ toJson(env) }}
+        run: echo "$JOB_CONTEXT"
 
       #Ruff linter for checking. Replaces manual install and run.
       - uses: astral-sh/ruff-action@v3
+        if: ${{ steps.changed-files.outputs.all_changed_files }}
+        with:
+          src: >-
+            ${{ steps.changed-files.outputs.all_changed_files }}

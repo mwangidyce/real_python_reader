@@ -1,0 +1,32 @@
+name: external_dependencies
+
+#Sets up all databases, queues etc that is needed for dev, CI, testing and prod
+
+services:
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    expose:
+      - "3306"
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/backup/data
+
+  dynamodb-local:
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
+    image: "amazon/dynamodb-local:latest"
+    container_name: dynamodb-local
+    ports:
+      - "8000:8000"
+    volumes:
+      - dynamo_db_data:/home/dynamodblocal/data
+    working_dir: /home/dynamodblocal
+    logging:
+      driver: none
+
+volumes:
+  mysql_data:
+  dynamo_db_data:
