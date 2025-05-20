@@ -34,9 +34,9 @@ jobs:
     needs: get_changed_files
     strategy:
       matrix:
-        projects: ["common", "events", "visits"]
+        project: ["common", "events", "visits"]
 
     uses: ./.github/workflows/test_workflow.yaml
     with:
-      project: ${{ matrix.projects }}
+      project: ${{ matrix.project }}
       changed_files: ${{ needs.get_changed_files.outputs.changed-files }}

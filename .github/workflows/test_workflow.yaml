@@ -43,19 +43,24 @@ jobs:
       run:
         working-directory: ./${{ inputs.project }}
     steps:
-      # - name: Setup Docker Images
-      #   uses: docker/login-action@v2
-      #   with:
-      #     registry: ghcr.io
-      #     username: ${{ github.actor }}
-      #     password: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/checkout@v4
 
-      - name: Build docker-compose
-        # Before the cache, it was "run: docker compose build".
-        run: |
-          ls -al
-          docker compose --file ../compose/dependencies_external/compose.yaml up -d
+      - name: Build and push
+        uses: docker/bake-action@master
+        with:
+          push: false
+          load: true
+          set: |
+            web.cache-from=type=gha
+            web.cache-to=type=gha
+          files: |
+            compose/dependencies_external/compose.yaml
+
+      # - name: Build docker-compose
+      #   # Before the cache, it was "run: docker compose build".
+      #   run: |
+      #     ls -al
+      #     docker compose --file ../compose/dependencies_external/compose.yaml up -d
       - uses: actions/setup-python@v5
         with:
           python-version: "3.10"
