@@ -51,8 +51,8 @@ jobs:
           push: false
           load: true
           set: |
-            web.cache-from=type=gha
-            web.cache-to=type=gha
+            db.cache-from=type=gha
+            db.cache-to=type=gha
           files: |
             compose/dependencies_external/compose.yaml
 
