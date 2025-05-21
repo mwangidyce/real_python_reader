@@ -1,4 +1,4 @@
-PROJECT="sso"
+PROJECT="visits"
 
 
 if [[ ${PROJECT} == "common" ]]; then

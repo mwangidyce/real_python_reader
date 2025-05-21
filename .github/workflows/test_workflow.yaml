@@ -19,6 +19,7 @@ jobs:
       run_test: ${{steps.if_run_test.outputs.RUN_TEST}}
       workdir: ${{steps.if_run_test.outputs.WORKDIR}}
     steps:
+      - uses: actions/checkout@v4
       - name: Run regex to check if file match
         id: if_run_test
         env:
