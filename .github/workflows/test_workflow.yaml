@@ -40,6 +40,8 @@ jobs:
               workdir="./services/${PROJECT}"
           elif test -d "./tools/${PROJECT}"; then
               workdir="./tools/${PROJECT}"
+          else
+            workdir="./"
           fi
 
           echo ${run_tests} ${workdir}
