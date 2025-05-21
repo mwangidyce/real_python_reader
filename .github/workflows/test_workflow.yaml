@@ -42,6 +42,8 @@ jobs:
               workdir="./tools/${PROJECT}"
           fi
 
+          echo ${run_tests} ${workdir}
+
           echo "RUN_TEST=${run_tests}" >> "$GITHUB_OUTPUT"
           echo "WORKDIR=${workdir}" >> "$GITHUB_OUTPUT"
 
