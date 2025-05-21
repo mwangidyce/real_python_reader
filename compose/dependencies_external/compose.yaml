@@ -6,6 +6,10 @@ services:
     image: mysql:8.0
     build:
       context: .
+      cache_from:
+        - type=gha
+      cache_to:
+        - type=gha
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: password

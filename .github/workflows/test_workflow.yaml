@@ -17,6 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       run_test: ${{steps.if_run_test.outputs.RUN_TEST}}
+      workdir: ${{steps.if_run_test.outputs.WORKDIR}}
     steps:
       - name: Run regex to check if file match
         id: if_run_test
@@ -32,7 +33,17 @@ jobs:
               break
             fi
           done
+
+          if [[ ${PROJECT} == "common" ]]; then
+              workdir="./common"
+          elif test -d "./services/${PROJECT}"; then
+              workdir="./services/${PROJECT}"
+          elif test -d "./tools/${PROJECT}"; then
+              workdir="./tools/${PROJECT}"
+          fi
+
           echo "RUN_TEST=${run_tests}" >> "$GITHUB_OUTPUT"
+          echo "WORKDIR=${workdir}" >> "$GITHUB_OUTPUT"
 
   test_project:
     name: Actual Test Job
@@ -41,29 +52,15 @@ jobs:
     if: ${{ needs.decide_run_test.outputs.run_test == 'true'}}
     defaults:
       run:
-        working-directory: ./${{ inputs.project }}
+        working-directory: ${{ needs.decide_run_test.outputs.workdir }}
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build and push
-        uses: docker/bake-action@master
-        with:
-          push: false
-          load: true
-          set: |
-            db.cache-from=type=gha
-            db.cache-to=type=gha
-          files: |
-            compose/dependencies_external/compose.yaml
-
-      # - name: Build docker-compose
-      #   # Before the cache, it was "run: docker compose build".
-      #   run: |
-      #     ls -al
-      #     docker compose --file ../compose/dependencies_external/compose.yaml up -d
+      - name: Build docker-compose
+        # Before the cache, it was "run: docker compose build".
+        run: |
+          ls -al
+          docker compose --file ../compose/dependencies_external/compose.yaml up -d
       - uses: actions/setup-python@v5
         with:
           python-version: "3.10"
