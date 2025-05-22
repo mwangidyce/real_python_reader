@@ -69,6 +69,7 @@ jobs:
              compose_dir="../"  
           else
             compose_dir="../.."
+          fi
 
           echo ${compose_dir}
           docker compose --file ${compose_dir}/compose/dependencies_external/compose.yaml up -d
