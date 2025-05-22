@@ -64,6 +64,7 @@ jobs:
       - name: Build docker-compose
         # Before the cache, it was "run: docker compose build".
         run: |
+          echo ${GITHUB_ACTION_PATH}
           ls -al /
           docker compose --file /compose/dependencies_external/compose.yaml up -d
       - uses: actions/setup-python@v5
