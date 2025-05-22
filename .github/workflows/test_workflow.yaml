@@ -62,16 +62,15 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Build docker-compose
-        # Before the cache, it was "run: docker compose build".
+        env:
+          PROJECT: ${{ inputs.project }}
         run: |
-          ls -al ./
           if [[ ${PROJECT} == "common" ]]; then
              compose_dir="../"  
           else
             compose_dir="../.."
           fi
 
-          echo ${compose_dir}
           docker compose --file ${compose_dir}/compose/dependencies_external/compose.yaml up -d
       - uses: actions/setup-python@v5
         with:
