@@ -71,11 +71,11 @@ jobs:
             compose_dir="../.."
           fi
 
+          docker compose --file ${compose_dir}/compose/dependencies_external/compose.yaml up -d
+
           while ! mysqladmin ping -h 127.0.0.1 -u root -ppassword --silent; do
               sleep 1
           done
-
-          docker compose --file ${compose_dir}/compose/dependencies_external/compose.yaml up -d
       - uses: actions/setup-python@v5
         with:
           python-version: "3.10"
