@@ -61,7 +61,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build docker-compose
+      - name: Setup db with docker and create tables
         env:
           PROJECT: ${{ inputs.project }}
         run: |
@@ -70,6 +70,10 @@ jobs:
           else
             compose_dir="../.."
           fi
+
+          while ! mysqladmin ping -h 127.0.0.1 -u root -ppassword --silent; do
+              sleep 1
+          done
 
           docker compose --file ${compose_dir}/compose/dependencies_external/compose.yaml up -d
       - uses: actions/setup-python@v5

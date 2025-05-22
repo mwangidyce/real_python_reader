@@ -4,12 +4,7 @@ name: external_dependencies
 services:
   db:
     image: mysql:8.0
-    build:
-      context: .
-      cache_from:
-        - type=gha
-      cache_to:
-        - type=gha
+    container_name: mysql_test_db
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: password
