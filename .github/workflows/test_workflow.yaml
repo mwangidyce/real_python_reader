@@ -87,10 +87,10 @@ jobs:
 
       - uses: actions/cache@v3
         id: cached-poetry-dependencies
-        name: Define a cache for the virtual environment based on the dependencies lock file
+        name: Cache for the virtual environment based on the dependencies lock file
         with:
-          path: ${{ format('{0}/.venv',  inputs.project ) }}
-          key: venv-${{ hashFiles(format('{0}/poetry.lock',  inputs.project )) }}
+          path: ${{ format('{0}/.venv',  needs.decide_run_test.outputs.workdir ) }}
+          key: venv-${{ hashFiles(format('{0}/poetry.lock',  needs.decide_run_test.outputs.workdir )) }}
 
       - name: Install dependencies
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
