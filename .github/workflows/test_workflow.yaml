@@ -11,6 +11,9 @@ on:
         required: true
         type: string
 
+env:
+  DB_CONFIG: "{'DBHOST': '127.0.0.1', 'DBUSER': 'root','DBPASSWORD':'password','DBNAME':'integrations_db'}"
+
 jobs:
   decide_run_test:
     name: Decide if we run test on project ${{ inputs.project}}
@@ -76,6 +79,12 @@ jobs:
           while ! mysqladmin ping -h 127.0.0.1 -u root -ppassword --silent; do
               sleep 1
           done
+
+          for file in SQL/*.sql; do
+            mysql -h 127.0.0.1 -u root -ppassword integrations_db < ${file}
+          done
+
+          mv config.sample.py config.py
       - uses: actions/setup-python@v5
         with:
           python-version: "3.10"
