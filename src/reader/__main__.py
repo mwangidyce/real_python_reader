@@ -58,7 +58,7 @@ def main() -> None:
     # Show help message
     if "-h" in opts or "--help" in opts:
         viewer.show(__doc__)
-        raise SystemExit()
+        raise SystemExit
 
     # Should links be shown in the text
     show_links = "-l" in opts or "--show-links" in opts

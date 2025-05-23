@@ -1,0 +1,42 @@
+name: Run Integration and Unit Tests
+
+on:
+  push:
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  get_changed_files:
+    runs-on: ubuntu-latest
+    outputs:
+      changed-files: ${{steps.changed-files.outputs.all_changed_files}}
+    steps:
+      - uses: actions/checkout@v4
+      # Changed Python files only
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v46
+        with:
+          files: "**/*.py"
+
+      - name: List all changed files
+        env:
+          ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+        run: |
+          for file in ${ALL_CHANGED_FILES}; do
+            echo "$file was changed"
+          done
+
+  actual_tests:
+    name: Run Python tests
+    needs: get_changed_files
+    strategy:
+      matrix:
+        project: ["common", "events", "visits"]
+
+    uses: ./.github/workflows/test_workflow.yaml
+    with:
+      project: ${{ matrix.project }}
+      changed_files: ${{ needs.get_changed_files.outputs.changed-files }}
