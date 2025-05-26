@@ -1,0 +1,121 @@
+name: Run unit and integration tests
+
+on:
+  workflow_call:
+    inputs:
+      project:
+        description: "Describes which project we are dealing with"
+        required: true
+        type: string
+      changed_files:
+        required: true
+        type: string
+
+jobs:
+  decide_run_test:
+    name: Decide if we run test on project ${{ inputs.project}}
+    runs-on: ubuntu-latest
+    outputs:
+      run_test: ${{steps.if_run_test.outputs.RUN_TEST}}
+      workdir: ${{steps.if_run_test.outputs.WORKDIR}}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run regex to check if file match
+        id: if_run_test
+        env:
+          PROJECT: ${{ inputs.project }}
+          CHANGED_FILES: ${{inputs.changed_files}}
+        run: |
+          run_tests=false
+          for file in ${CHANGED_FILES}; do
+            #Runs project tests if any file in prject has changed or any file in common
+            if [[ ${file} =~ "common" || ${file} =~ ${PROJECT} ]]; then
+              echo "${file} has matched"
+              run_tests=true
+              break
+            fi
+          done
+
+          if [[ ${PROJECT} == "common" ]]; then
+              workdir="./common"
+          elif test -d "./services/${PROJECT}"; then
+              workdir="./services/${PROJECT}"
+          elif test -d "./tools/${PROJECT}"; then
+              workdir="./tools/${PROJECT}"
+          else
+            workdir="./"
+          fi
+
+          echo ${run_tests} ${workdir}
+
+          echo "RUN_TEST=${run_tests}" >> "$GITHUB_OUTPUT"
+          echo "WORKDIR=${workdir}" >> "$GITHUB_OUTPUT"
+
+  test_project:
+    name: Actual Test Job
+    runs-on: ubuntu-latest
+    needs: decide_run_test
+    if: ${{ needs.decide_run_test.outputs.run_test == 'true'}}
+    defaults:
+      run:
+        working-directory: ${{ needs.decide_run_test.outputs.workdir }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup db with docker and create tables
+        env:
+          PROJECT: ${{ inputs.project }}
+        run: |
+          if [[ ${PROJECT} == "common" ]]; then
+             base_dir="../"  
+          else
+            mv config.sample.py config.py
+            base_dir="../.."
+          fi
+
+          docker compose --file ${base_dir}/compose/dependencies_external/compose.yaml up -d
+
+          while ! mysqladmin ping -h 127.0.0.1 -u root -ppassword --silent; do
+              sleep 1
+          done
+
+          if [ -d SQL ]; then
+            for file in SQL/*.sql; do
+              mysql -h 127.0.0.1 -u root -ppassword integrations_db < ${file}
+            done
+          fi
+
+          # Add common SQL
+          for file in ${base_dir}/common/SQL/*.sql; do
+              mysql -h 127.0.0.1 -u root -ppassword integrations_db < ${file}
+            done
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Install poetry
+        uses: abatilo/actions-poetry@v3
+        with:
+          poetry-version: "2.1.3"
+
+      - name: Setup a local virtual environment (if no poetry.toml file)
+        run: |
+          poetry config virtualenvs.create true --local
+          poetry config virtualenvs.in-project true --local
+
+      - uses: actions/cache@v3
+        id: cached-poetry-dependencies
+        name: Cache for the virtual environment based on the dependencies lock file
+        with:
+          path: ${{ format('{0}/.venv',  needs.decide_run_test.outputs.workdir ) }}
+          key: venv-${{ hashFiles(format('{0}/poetry.lock',  needs.decide_run_test.outputs.workdir )) }}
+
+      - name: Install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: |
+          poetry install
+          poetry add pytest-github-actions-annotate-failures #Special package for github actions only
+
+      - name: Run tests with poetry
+        run: |
+          poetry run pytest -v

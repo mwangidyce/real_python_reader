@@ -1,0 +1,27 @@
+{
+  "editor.formatOnSave": true,
+  "editor.mouseWheelZoom": true,
+  "editor.formatOnSaveMode": "file",
+  "editor.wrappingIndent": "same",
+  "editor.wordWrap": "wordWrapColumn",
+  "editor.wordWrapColumn": 120,
+  "python.languageServer": "Pylance",
+  "python.analysis.typeCheckingMode": "standard",
+  "python.analysis.fixAll": [
+    "source.unusedImports"
+  ],
+  "python.analysis.completeFunctionParens": true,
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    },
+  },
+  "ruff.nativeServer": "off",
+  "ruff.lint.enable": true,
+  "ruff.lint.run": "onSave",
+  "files.exclude": {
+    ".ruff_cache": true
+}
+}
