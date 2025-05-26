@@ -80,9 +80,11 @@ jobs:
               sleep 1
           done
 
-          for file in SQL/*.sql; do
-            mysql -h 127.0.0.1 -u root -ppassword integrations_db < ${file}
-          done
+          if [ -d SQL ]; then
+            for file in SQL/*.sql; do
+              mysql -h 127.0.0.1 -u root -ppassword integrations_db < ${file}
+            done
+          fi
 
           mv config.sample.py config.py
       - uses: actions/setup-python@v5
