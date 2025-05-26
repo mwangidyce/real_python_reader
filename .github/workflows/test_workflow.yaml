@@ -11,9 +11,6 @@ on:
         required: true
         type: string
 
-env:
-  DB_CONFIG: "{'DBHOST': '127.0.0.1', 'DBUSER': 'root','DBPASSWORD':'password','DBNAME':'integrations_db'}"
-
 jobs:
   decide_run_test:
     name: Decide if we run test on project ${{ inputs.project}}
@@ -31,6 +28,7 @@ jobs:
         run: |
           run_tests=false
           for file in ${CHANGED_FILES}; do
+            #Runs project tests if any file in prject has changed or any file in common
             if [[ ${file} =~ "common" || ${file} =~ ${PROJECT} ]]; then
               echo "${file} has matched"
               run_tests=true
@@ -69,13 +67,13 @@ jobs:
           PROJECT: ${{ inputs.project }}
         run: |
           if [[ ${PROJECT} == "common" ]]; then
-             compose_dir="../"  
+             base_dir="../"  
           else
             mv config.sample.py config.py
-            compose_dir="../.."
+            base_dir="../.."
           fi
 
-          docker compose --file ${compose_dir}/compose/dependencies_external/compose.yaml up -d
+          docker compose --file ${base_dir}/compose/dependencies_external/compose.yaml up -d
 
           while ! mysqladmin ping -h 127.0.0.1 -u root -ppassword --silent; do
               sleep 1
@@ -86,6 +84,11 @@ jobs:
               mysql -h 127.0.0.1 -u root -ppassword integrations_db < ${file}
             done
           fi
+
+          # Add common SQL
+          for file in ${base_dir}/common/SQL/*.sql; do
+              mysql -h 127.0.0.1 -u root -ppassword integrations_db < ${file}
+            done
 
       - uses: actions/setup-python@v5
         with:
