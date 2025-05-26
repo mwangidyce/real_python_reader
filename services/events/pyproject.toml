@@ -1,8 +1,9 @@
 [tool.poetry]
-name = "sso"
+name = "events"
 version = "0.1.0"
 description = "SSO service where different single sign-on capabilities will be deployed"
 authors = ["Lawrence Nevvon"]
+package-mode = false
 
 [tool.poetry.dependencies]
 
