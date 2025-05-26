@@ -32,7 +32,7 @@ SSO_CORE_URL = os.environ.get("SSO_CORE_URL", "generate-sso")
 DB_CONFIG = parse_env_dict(
     os.environ.get("DB_CONFIG"),
     {
-        "DBHOST": "service-sso-sand.cluster-cbsniiq2cl0b.us-east-2.rds.amazonaws.com",
+        "DBHOST": "127.0.0.1",
         "DBUSER": "sso_main",
         "DBPASSWORD": "Sdfjj94sjzdj",
         "DBNAME": "sso_sandbox",
