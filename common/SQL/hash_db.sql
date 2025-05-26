@@ -1,4 +1,4 @@
-CREATE TABLE `nevvon_provider_hashes` (
+CREATE TABLE `nevvon_provider_hashes` IF NOT EXISTS (
     `RECORD_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `employee_number` varchar(150) NOT NULL,
     `phone_number` varchar(150) NOT NULL,
